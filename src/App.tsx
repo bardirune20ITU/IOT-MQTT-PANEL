@@ -4,6 +4,7 @@ import { connectMqttLazy, gracefulEnd } from "./mqtt/client";
 import type { MqttClient } from "mqtt";
 import { extractByJsonPath } from "./utils/jsonPath";
 import { LineGraph, type LineGraphPoint } from "./components/LineGraph";
+import { SwitchPanel } from "./components/SwitchPanel";
 import "./index.css";
 
 type SavedConfig = {
