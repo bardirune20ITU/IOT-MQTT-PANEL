@@ -1,13 +1,12 @@
-import mqtt, { type MqttClient, type IClientOptions } from "mqtt";
+import type { MqttClient, IClientOptions } from "mqtt";
 
-export type ConnectOptions = IClientOptions & {
-  url: string;
-};
+export type ConnectOptions = IClientOptions & { url: string };
 
-export function connectMqtt(options: ConnectOptions): MqttClient {
+export async function connectMqttLazy(options: ConnectOptions): Promise<MqttClient> {
   const { url, ...opts } = options;
-
-  const client = mqtt.connect(url, {
+  const mqttMod = await import("mqtt");
+  const mqtt = (mqttMod as any).default ?? (mqttMod as any);
+  const client: MqttClient = mqtt.connect(url, {
     keepalive: 60,
     reconnectPeriod: 1000,
     clean: true,
@@ -22,7 +21,7 @@ export function connectMqtt(options: ConnectOptions): MqttClient {
     console.info("[mqtt] connection closed");
   });
 
-  client.on("error", (err) => {
+  client.on("error", (err: unknown) => {
     console.error("[mqtt] error:", err);
   });
 

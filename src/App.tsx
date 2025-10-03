@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { connectMqtt, gracefulEnd } from "./mqtt/client";
+import { connectMqttLazy, gracefulEnd } from "./mqtt/client";
 import type { MqttClient } from "mqtt";
 import { extractByJsonPath } from "./utils/jsonPath";
 import { LineGraph, type LineGraphPoint } from "./components/LineGraph";
@@ -31,8 +31,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const c = connectMqtt({ url: saved.url, keepalive: 60, reconnectPeriod: 1000 });
-    setClient(c);
+    let mounted = true;
+    connectMqttLazy({ url: saved.url, keepalive: 60, reconnectPeriod: 1000 }).then((c) => {
+      if (!mounted) return;
+      setClient(c);
 
     c.on("connect", () => {
       setConnected(true);
@@ -65,8 +67,13 @@ export default function App() {
       }
     });
 
+      return () => {
+        gracefulEnd(c);
+      };
+    });
+
     return () => {
-      gracefulEnd(c);
+      mounted = false;
     };
   }, [saved.url, saved.topics]);
 
