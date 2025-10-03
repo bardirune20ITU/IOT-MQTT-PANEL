@@ -1,4 +1,4 @@
-import mqtt, { MqttClient, IClientOptions } from "mqtt";
+import mqtt, { type MqttClient, type IClientOptions } from "mqtt";
 
 export type ConnectOptions = IClientOptions & {
   url: string;
