@@ -1,4 +1,4 @@
-import { connectMqtt } from "../../src/mqtt/client";
+import { connectMqttLazy } from "../../src/mqtt/client";
 import type { MqttClient } from "mqtt";
 
 jest.mock("mqtt", () => {
@@ -24,7 +24,7 @@ jest.mock("mqtt", () => {
 });
 
 test("connects and reconnects", async () => {
-  const client = connectMqtt({ url: "wss://example.com/mqtt" });
+  const client = await connectMqttLazy({ url: "wss://example.com/mqtt" });
   const events: string[] = [];
 
   (client as any).on("connect", () => events.push("connect"));

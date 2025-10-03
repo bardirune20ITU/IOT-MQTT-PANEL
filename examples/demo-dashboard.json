@@ -3,7 +3,7 @@
   "connection": {
     "id": "conn-demo-1",
     "name": "Demo Broker (public)",
-    "host": "wss://test.mosquitto.org",
+    "host": "test.mosquitto.org",
     "port": 8081,
     "protocol": "wss",
     "clientId": "iot-panel-demo-client",
@@ -23,197 +23,265 @@
           "id": "p-button-1",
           "type": "button",
           "title": "Front Door Toggle",
-          "subscribeTopics": ["home/livingroom/light1/status"],
-          "publishTopic": "home/livingroom/light1/set",
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"ON\"",
-          "sample_publish_payload": "\"TOGGLE\"",
-          "payload_template": "{{action}}",
-          "appearance": { "icon": "lightbulb", "color": "#FFD54F", "width": 2, "height": 1 }
+          "topic": "home/livingroom/light1/status",
+          "sample_payload": "\"ON\"",
+          "panel_config": {
+            "publishTopic": "home/livingroom/light1/set",
+            "payload_template": "{{action}}",
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "lightbulb", "color": "#FFD54F", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-switch-1",
           "type": "switch",
           "title": "Ceiling Fan",
-          "subscribeTopics": ["home/livingroom/fan/status"],
-          "publishTopic": "home/livingroom/fan/set",
-          "qos": 0,
-          "retain": false,
-          "data_format": "json",
-          "json_path": "$.state",
-          "sample_subscribe_payload": "{\"state\":\"ON\"}",
-          "sample_publish_payload": "{\"state\":\"OFF\"}",
-          "payload_template": "{\"state\":\"{{state}}\"}",
-          "appearance": { "icon": "fan", "color": "#90CAF9", "width": 2, "height": 1 }
+          "topic": "home/livingroom/fan/status",
+          "sample_payload": "{\"state\":\"ON\"}",
+          "panel_config": {
+            "publishTopic": "home/livingroom/fan/set",
+            "data_format": "json",
+            "json_path": "$.state",
+            "payload_template": "{\"state\":\"{{state}}\"}",
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "fan", "color": "#90CAF9", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-slider-1",
           "type": "slider",
           "title": "Dimmer (Bedroom)",
-          "subscribeTopics": ["home/bedroom/dimmer/brightness"],
-          "publishTopic": "home/bedroom/dimmer/set",
-          "qos": 0,
-          "retain": false,
-          "data_format": "number",
-          "sample_subscribe_payload": "75",
-          "sample_publish_payload": "50",
-          "transforms": { "min": 0, "max": 100, "unit": "%" },
-          "appearance": { "icon": "tune", "color": "#A5D6A7", "width": 2, "height": 1 }
+          "topic": "home/bedroom/dimmer/brightness",
+          "sample_payload": "75",
+          "panel_config": {
+            "publishTopic": "home/bedroom/dimmer/set",
+            "data_format": "number",
+            "transforms": { "min": 0, "max": 100, "unit": "%" },
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "tune", "color": "#A5D6A7", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-textinput-1",
           "type": "text_input",
           "title": "AC Setpoint (Office)",
-          "subscribeTopics": ["home/office/ac/temp_setpoint"],
-          "publishTopic": "home/office/ac/set_temp",
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "22",
-          "sample_publish_payload": "23",
-          "payload_template": "{{value}}",
-          "appearance": { "icon": "thermostat", "color": "#FFE082", "width": 2, "height": 1 }
+          "topic": "home/office/ac/temp_setpoint",
+          "sample_payload": "22",
+          "panel_config": {
+            "publishTopic": "home/office/ac/set_temp",
+            "payload_template": "{{value}}",
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "thermostat", "color": "#FFE082", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-textlog-1",
           "type": "text_log",
           "title": "System Log",
-          "subscribeTopics": ["home/logs"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "json",
-          "json_path": "$",
-          "sample_subscribe_payload": "{\"level\":\"info\",\"msg\":\"System armed\"}",
-          "appearance": { "icon": "receipt", "color": "#E1BEE7", "width": 4, "height": 2 }
+          "topic": "home/logs",
+          "sample_payload": "{\"level\":\"info\",\"msg\":\"System armed\"}",
+          "panel_config": {
+            "data_format": "json",
+            "json_path": "$",
+            "appearance": { "icon": "receipt", "color": "#E1BEE7", "width": 4, "height": 2 }
+          }
         },
         {
           "id": "p-node-status-1",
           "type": "node_status",
           "title": "Weather Station",
-          "subscribeTopics": ["devices/weather_station/status"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"online\"",
-          "appearance": { "icon": "cloud", "color": "#81D4FA", "width": 1, "height": 1 }
+          "topic": "devices/weather_station/status",
+          "sample_payload": "\"online\"",
+          "panel_config": {
+            "data_format": "raw",
+            "appearance": { "icon": "cloud", "color": "#81D4FA", "width": 1, "height": 1 }
+          }
         },
         {
           "id": "p-combobox-1",
           "type": "combo_box",
           "title": "Robot Vacuum Mode",
-          "subscribeTopics": ["home/kitchen/robot_vacuum/mode"],
-          "publishTopic": "home/kitchen/robot_vacuum/set_mode",
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"cleaning\"",
-          "sample_publish_payload": "\"dock\"",
-          "appearance": { "icon": "vacuum", "color": "#B2DFDB", "width": 2, "height": 1 }
+          "topic": "home/kitchen/robot_vacuum/mode",
+          "sample_payload": "\"cleaning\"",
+          "panel_config": {
+            "publishTopic": "home/kitchen/robot_vacuum/set_mode",
+            "options": ["cleaning", "dock", "spot"],
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "vacuum", "color": "#B2DFDB", "width": 2, "height": 1 }
+          }
+        },
+        {
+          "id": "p-radio-1",
+          "type": "radio_buttons",
+          "title": "Irrigation Zone1 Mode",
+          "topic": "home/irrigation/zone1/state",
+          "sample_payload": "\"auto\"",
+          "panel_config": {
+            "publishTopic": "home/irrigation/zone1/set_state",
+            "options": ["off", "manual", "auto"],
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "radio_button_checked", "color": "#A7FFEB", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-led-1",
           "type": "led_indicator",
           "title": "Motor Status",
-          "subscribeTopics": ["industrial/machine1/motor_status"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "number",
-          "sample_subscribe_payload": "1",
-          "appearance": { "icon": "power", "color": "#EF9A9A", "width": 1, "height": 1 }
+          "topic": "industrial/machine1/motor_status",
+          "sample_payload": "1",
+          "panel_config": {
+            "data_format": "number",
+            "conditions": { "on": [1], "off": [0] },
+            "appearance": { "icon": "power", "color": "#EF9A9A", "width": 1, "height": 1 }
+          }
         },
         {
           "id": "p-multistate-1",
           "type": "multi_state_indicator",
           "title": "Rack Alert",
-          "subscribeTopics": ["serverroom/rack1/env/alert"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"WARN\"",
-          "appearance": { "icon": "warning", "color": "#FFCC80", "width": 1, "height": 1 }
+          "topic": "serverroom/rack1/env/alert",
+          "sample_payload": "\"WARN\"",
+          "panel_config": {
+            "states": { "OK": "OK", "WARN": "WARN", "CRIT": "CRIT" },
+            "appearance": { "icon": "warning", "color": "#FFCC80", "width": 1, "height": 1 }
+          }
+        },
+        {
+          "id": "p-progress-1",
+          "type": "progress",
+          "title": "Job Progress",
+          "topic": "data/processing/job1/progress",
+          "sample_payload": "85",
+          "panel_config": {
+            "data_format": "number",
+            "transforms": { "min": 0, "max": 100, "unit": "%" },
+            "appearance": { "icon": "progress_activity", "color": "#64B5F6", "width": 3, "height": 1 }
+          }
         },
         {
           "id": "p-gauge-1",
           "type": "gauge",
           "title": "EV Battery SOC",
-          "subscribeTopics": ["vehicle/ev/battery/soc"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "number",
-          "sample_subscribe_payload": "65.5",
-          "transforms": { "min": 0, "max": 100, "unit": "%" },
-          "appearance": { "icon": "battery_charging_full", "color": "#90CAF9", "width": 2, "height": 1 }
+          "topic": "vehicle/ev/battery/soc",
+          "sample_payload": "65.5",
+          "panel_config": {
+            "data_format": "number",
+            "transforms": { "min": 0, "max": 100, "unit": "%" },
+            "appearance": { "icon": "battery_charging_full", "color": "#90CAF9", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-color-1",
           "type": "color_picker",
           "title": "LED Strip Color",
-          "subscribeTopics": ["home/livingroom/ledstrip/color"],
-          "publishTopic": "home/livingroom/ledstrip/set",
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"#FF5733\"",
-          "sample_publish_payload": "\"#33FF57\"",
-          "appearance": { "icon": "color_lens", "color": "#FF8A65", "width": 2, "height": 1 }
+          "topic": "home/livingroom/ledstrip/color",
+          "sample_payload": "\"#FF5733\"",
+          "panel_config": {
+            "publishTopic": "home/livingroom/ledstrip/set",
+            "qos": 0,
+            "retain": false,
+            "appearance": { "icon": "color_lens", "color": "#FF8A65", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-datetime-1",
           "type": "date_time_picker",
           "title": "Evening Light Time",
-          "subscribeTopics": ["schedule/lighting/evening_scene_time"],
-          "publishTopic": "schedule/lighting/set_evening_time",
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"2025-10-26T18:00:00Z\"",
-          "sample_publish_payload": "\"2025-10-26T18:30:00Z\"",
-          "appearance": { "icon": "schedule", "color": "#B39DDB", "width": 2, "height": 1 }
+          "topic": "schedule/lighting/evening_scene_time",
+          "sample_payload": "\"2025-10-26T18:00:00Z\"",
+          "panel_config": {
+            "publishTopic": "schedule/lighting/set_evening_time",
+            "sample_publish_payload": "\"2025-10-26T18:30:00Z\"",
+            "appearance": { "icon": "schedule", "color": "#B39DDB", "width": 2, "height": 1 }
+          }
         },
         {
           "id": "p-linegraph-1",
           "type": "line_graph",
           "title": "Soil Moisture (Garden)",
-          "subscribeTopics": ["sensors/garden/soil_moisture"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "json",
-          "json_path": "$.value",
-          "sample_subscribe_payload": "{\"value\":58,\"ts\":1672531200}",
-          "options": { "max_points": 200, "aggregation": "none", "unit": "%" },
-          "appearance": { "icon": "show_chart", "color": "#A5D6A7", "width": 4, "height": 2 }
+          "topic": "sensors/garden/soil_moisture",
+          "sample_payload": "{\"value\":58,\"ts\":1672531200}",
+          "panel_config": {
+            "data_format": "json",
+            "json_path": "$.value",
+            "options": { "max_points": 200, "aggregation": "none", "unit": "%" },
+            "appearance": { "icon": "show_chart", "color": "#A5D6A7", "width": 4, "height": 2 }
+          }
         },
         {
           "id": "p-bargraph-1",
           "type": "bar_graph",
           "title": "Daily Power (kWh)",
-          "subscribeTopics": ["analytics/daily_power/usage_kwh"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "json",
-          "sample_subscribe_payload": "[{\"label\":\"Mon\",\"value\":12},{\"label\":\"Tue\",\"value\":15}]",
-          "appearance": { "icon": "bar_chart", "color": "#FFCC80", "width": 4, "height": 2 }
+          "topic": "analytics/daily_power/usage_kwh",
+          "sample_payload": "[{\"label\":\"Mon\",\"value\":12},{\"label\":\"Tue\",\"value\":15}]",
+          "panel_config": {
+            "data_format": "json",
+            "json_path": "$",
+            "appearance": { "icon": "bar_chart", "color": "#FFCC80", "width": 4, "height": 2 }
+          }
+        },
+        {
+          "id": "p-pie-1",
+          "type": "pie_chart",
+          "title": "Storage Usage (GB)",
+          "topic": "system/storage/usage_gb",
+          "sample_payload": "[{\"label\":\"Apps\",\"value\":150},{\"label\":\"Media\",\"value\":250}]",
+          "panel_config": {
+            "data_format": "json",
+            "json_path": "$",
+            "appearance": { "icon": "pie_chart", "color": "#FFD180", "width": 3, "height": 2 }
+          }
         },
         {
           "id": "p-image-1",
           "type": "image",
           "title": "Front Door Snapshot",
-          "subscribeTopics": ["security/front_door/snapshot"],
-          "publishTopic": null,
-          "qos": 0,
-          "retain": false,
-          "data_format": "raw",
-          "sample_subscribe_payload": "\"data:image/jpeg;base64,/9j/4AAQ...\"",
-          "appearance": { "icon": "camera_alt", "color": "#CE93D8", "width": 3, "height": 2 }
+          "topic": "security/front_door/snapshot",
+          "sample_payload": "\"data:image/jpeg;base64,/9j/4AAQ...\"",
+          "panel_config": {
+            "data_format": "raw",
+            "appearance": { "icon": "camera_alt", "color": "#CE93D8", "width": 3, "height": 2 }
+          }
+        },
+        {
+          "id": "p-barcode-1",
+          "type": "barcode_scan",
+          "title": "Inventory Scanner",
+          "topic": "inventory/scan",
+          "sample_payload": "\"978-0321765723\"",
+          "panel_config": {
+            "publishOnly": true,
+            "payload_template": "{{code}}",
+            "appearance": { "icon": "qr_code_scanner", "color": "#A1887F", "width": 2, "height": 1 }
+          }
+        },
+        {
+          "id": "p-uri-1",
+          "type": "uri_launcher",
+          "title": "Open Camera",
+          "topic": "action_uri",
+          "sample_payload": "\"https://camera.example.com/live?token={{device.token}}\"",
+          "panel_config": {
+            "uri_template": "https://camera.example.com/live?token={{device.token}}",
+            "appearance": { "icon": "open_in_new", "color": "#80CBC4", "width": 2, "height": 1 }
+          }
+        },
+        {
+          "id": "p-decorator-1",
+          "type": "layout_decorator",
+          "title": "Living Room Zone",
+          "topic": "layout/decorator",
+          "sample_payload": "\"section\"",
+          "panel_config": {
+            "text": "Living Room",
+            "appearance": { "icon": "label", "color": "#B0BEC5", "width": 4, "height": 1 }
+          }
         }
       ]
     }
